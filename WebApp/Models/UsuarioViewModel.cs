@@ -28,5 +28,6 @@ namespace WebApp.Models
         public string comuna { get; set; }
         [MaxLength(40), Display(Name = "Región")]
         public string region { get; set; }
+        public int idRol { get; set; }
     }
 }

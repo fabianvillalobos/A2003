@@ -43,6 +43,7 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid && model.Count > 0)
             {
+                bool salida = _authService.EncontrarUsuario(model["email"].ToString(), model["contrasena"].ToString());
                 return RedirectToAction("Index", "Home");
             }
             return View();   

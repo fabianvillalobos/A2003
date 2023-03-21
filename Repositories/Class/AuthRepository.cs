@@ -13,29 +13,58 @@ namespace Repositories.Class
 {
     public class AuthRepository: IAuthRepostitory
     {
-        private readonly string conexion = ConfigurationManager.ConnectionStrings["db"].ConnectionString;
-
-        public int NuevoUsuario(UsuarioModel usuario)
+        public int NuevoUsuario(usuarios usuario)
         {
             int salida = 0;
-            StringBuilder sb = new StringBuilder();
+
             try
             {
-                sb.Append("Insert Into dbo.usuarios Values( '");
-                sb.Append(usuario.pNombre+"',"+"'"+usuario.sNombre+"','"+usuario.apPaterno+"','"+usuario.apMaterno+"','"+usuario.email+"',");
-                sb.Append("'"+usuario.contrasena+"',GETDATE(),1,"+"'"+usuario.direccion+"','"+usuario.comuna+"','"+usuario.region+"');");
-                sb.Append(" SELECT SCOPE_IDENTITY() ");
-
-                string sql = sb.ToString();
-                var conn = new SqlConnection(conexion);
-                salida = conn.ExecuteScalar<int>(sql);
+                using (A2003Entities database = new A2003Entities())
+                {
+                    database.usuarios.Add(usuario);
+                    database.SaveChanges();
+                    return salida = 1;
+                }
             }
             catch (Exception ex)
             {
-                salida = 0;
-                Console.WriteLine("NuevoUsuario " + ex.Message);
+                Console.WriteLine(ex.Message);
+                return salida;
             }
-            return salida;
+        }
+
+        public usuarios EncontrarUsuario(string email, string contrasena)
+        {
+            usuarios user = new usuarios();
+            try
+            {
+
+                using (A2003Entities database = new A2003Entities())
+                {
+                    user = database.usuarios.Where(a => a.email == email).FirstOrDefault();
+                }
+                var passDesEncriptara = DesEncriptar(user.contrasena);
+
+                if (contrasena == passDesEncriptara)
+                {
+                    return user;
+                }
+                return new usuarios();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("EncontrarUsuario", ex.Message);
+                return new usuarios();
+            }
+        }
+
+        public static string DesEncriptar(string contrasena)
+        {
+            string result = string.Empty;
+            byte[] decryted = Convert.FromBase64String(contrasena);
+            result = System.Text.Encoding.Unicode.GetString(decryted, 0, decryted.ToArray().Length);
+            result = System.Text.Encoding.Unicode.GetString(decryted);
+            return result;
         }
     }
 }

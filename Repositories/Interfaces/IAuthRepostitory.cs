@@ -9,6 +9,7 @@ namespace Repositories.Interfaces
 {
     public interface IAuthRepostitory
     {
-        int NuevoUsuario(UsuarioModel usuario);
+        int NuevoUsuario(usuarios usuario);
+        usuarios EncontrarUsuario(string email, string contrasena);
     }
 }

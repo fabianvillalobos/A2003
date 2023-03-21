@@ -10,5 +10,6 @@ namespace Services.Interfaces
     public interface IAuthService
     {
         int NuevoUsuario(string pNombre, string sNombre, string apPaterno, string apMaterno, string email, string contrasena, string direccion, string comuna, string region);
+        bool EncontrarUsuario(string email, string contrasena);
     }
 }
