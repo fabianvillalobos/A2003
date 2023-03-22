@@ -6,13 +6,13 @@ using System.Web.Mvc;
 
 namespace WebApp.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
             return View();
         }
-
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -24,6 +24,12 @@ namespace WebApp.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        public ActionResult SinPermiso() 
+        {
+            ViewBag.Message = "Usted no cuenta con los privilegios para acceder a esta página";
             return View();
         }
     }

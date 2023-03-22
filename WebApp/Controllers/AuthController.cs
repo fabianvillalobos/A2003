@@ -1,10 +1,13 @@
 ﻿using Services.Class;
+using Services.Dtos;
 using Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
+using WebApp.Permisos;
 
 namespace WebApp.Controllers
 {
@@ -17,7 +20,7 @@ namespace WebApp.Controllers
             _authService = new AuthService();
         }
 
-        // GET: Auth
+        [PermisosRol(1)]
         public ActionResult Logon(FormCollection model)
         {
             if (ModelState.IsValid && model.Count > 0)
@@ -43,10 +46,24 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid && model.Count > 0)
             {
-                bool salida = _authService.EncontrarUsuario(model["email"].ToString(), model["contrasena"].ToString());
-                return RedirectToAction("Index", "Home");
+                UsuarioLoginDto salida = _authService.EncontrarUsuario(model["email"].ToString(), model["contrasena"].ToString());
+                if (salida.email != null)
+                {
+                    FormsAuthentication.SetAuthCookie(model["email"].ToString(), false);
+                    Session["usuario"] = salida;
+                    return RedirectToAction("Index", "Home");
+                }
+
+                return View();
             }
             return View();   
+        }
+
+        public ActionResult CerrarSesion()
+        {
+            FormsAuthentication.SignOut();
+            Session["usuario"] = null;
+            return RedirectToAction("Login", "Auth");
         }
     }
 }

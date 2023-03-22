@@ -1,6 +1,7 @@
 ﻿using Repositories.Class;
 using Repositories.Interfaces;
 using Repositories.Models;
+using Services.Dtos;
 using Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -43,10 +44,14 @@ namespace Services.Class
             return resultado;
         }
 
-        public bool EncontrarUsuario(string email, string contrasena)
+        public UsuarioLoginDto EncontrarUsuario(string email, string contrasena)
         {
-            bool salida = _authRepository.EncontrarUsuario(email, contrasena) != null ? true : false;
-            return salida;
+            UsuarioLoginDto usuario = new UsuarioLoginDto();
+            var salida = _authRepository.EncontrarUsuario(email, contrasena);
+            usuario.email = salida.email;
+            usuario.rol = salida.IdRol;
+            usuario.estado = salida.estado;
+            return usuario;
         }
     }
 }

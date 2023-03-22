@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class\AuthService.cs" />
+    <Compile Include="Dtos\UsuarioLoginDto.cs" />
     <Compile Include="Interfaces\IAuthService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
