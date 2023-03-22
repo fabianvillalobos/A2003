@@ -1,10 +1,10 @@
 ﻿@model WebApp.Models.LoginViewModel
 
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "Ingreso";
 }
 
-<h2>Login</h2>
+<h2>Ingreso</h2>
 
 
 @using (Html.BeginForm()) 
@@ -12,7 +12,6 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>LoginViewModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -33,7 +32,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Acceder" class="btn btn-default" />
             </div>
         </div>
     </div>

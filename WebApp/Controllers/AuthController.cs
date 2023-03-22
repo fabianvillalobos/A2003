@@ -20,7 +20,7 @@ namespace WebApp.Controllers
             _authService = new AuthService();
         }
 
-        [PermisosRol(1)]
+        [Authorize][PermisosRol(1)]
         public ActionResult Logon(FormCollection model)
         {
             if (ModelState.IsValid && model.Count > 0)
